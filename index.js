@@ -121,6 +121,7 @@ module.exports = function (root, options) {
 
     if (file.compress && req.acceptsEncodings('gzip', 'identity') === 'gzip') {
       res.set('Content-Encoding', 'gzip')
+      res.set('Vary', 'Accept-Encoding')
       res.length = file.compress.stats.size
       res.body = fs.createReadStream(file.compress.path)
     } else {
@@ -167,6 +168,7 @@ module.exports = function (root, options) {
     if (file.compress) {
       headers['content-encoding'] = 'gzip'
       headers['content-length'] = file.compress.stats.size
+      headers['Vary'] = 'Accept-Encoding'
       options.filename = file.compress.path
     } else {
       headers['content-encoding'] = 'identity'
